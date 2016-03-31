@@ -1,26 +1,20 @@
 package se.mbark.kry;
 
 import io.vertx.core.*;
+import io.vertx.core.buffer.Buffer;
+import io.vertx.core.file.FileSystem;
 import io.vertx.core.http.HttpServer;
-import io.vertx.core.http.HttpServerResponse;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.Json;
-import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 
-import javax.json.JsonReader;
-import java.io.*;
-import java.rmi.server.UID;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class Server extends AbstractVerticle {
-    private File dbFile;
+    Vertx vertx = Vertx.vertx();
+    FileSystem fileSystem = vertx.fileSystem();
+    String dbFilePath = "db.json";
 
     @Override
     public void start(Future<Void> fut) {
@@ -28,7 +22,6 @@ public class Server extends AbstractVerticle {
     }
 
     public void stop(Future<Void> fut) {
-        dbFile.delete();
         fut.complete();
     }
 
@@ -47,21 +40,20 @@ public class Server extends AbstractVerticle {
     }
 
     private void getAll(RoutingContext context) {
-        List<Service> services = new ArrayList<Service>();
-
-        // reading from file to populate services
-
-        HashMap<String, List<Service>> jsonMap = new HashMap<>();
-        jsonMap.put("services", services);
-
-        context.response()
-                .setStatusCode(200)
-                .putHeader("content-type", "application/json; charset=utf-8")
-                .end(Json.encodePrettily(jsonMap));
+        fileSystem.readFile(dbFilePath, result -> {
+            if(result.succeeded()) {
+                context.response()
+                        .setStatusCode(200)
+                        .putHeader("content-type", "application/json; charset=utf-8")
+                        .end(result.result());
+            } else {
+                context.response()
+                        .setStatusCode(400);
+            }
+        });
     }
 
     private void addOne(RoutingContext context) {
-        System.out.println(context.getBodyAsString());
         try {
             Service service = Json.decodeValue(context.getBodyAsString(), Service.class);
             context.response()
@@ -91,16 +83,29 @@ public class Server extends AbstractVerticle {
     }
 
     private void completeStartup(AsyncResult<HttpServer> http, Future<Void> fut) {
+        // callback hell
         if (http.succeeded()) {
-            try {
-                dbFile = new File("resources/kry-db.txt");
-                dbFile.delete();
-                dbFile.mkdirs();
-                dbFile.createNewFile();
-            } catch (IOException e) {
-                fut.fail("Unable to create file used to save service data");
-            }
-            fut.complete();
+            fileSystem.delete(dbFilePath, deleted -> {
+                if(deleted.succeeded()) {
+                    fileSystem.createFile(dbFilePath, created -> {
+                        if(created.succeeded()) {
+                            Buffer b  = Buffer.buffer();
+                            b.appendString("{\"services\": [] }");
+                            fileSystem.writeFile(dbFilePath, b, written -> {
+                                if(written.succeeded()) {
+                                    fut.complete();
+                                } else {
+                                    fut.fail(written.cause());
+                                }
+                            });
+                        } else {
+                            fut.fail(created.cause());
+                        }
+                    });
+                } else {
+                    fut.fail(deleted.cause());
+                }
+            });
         } else {
             fut.fail(http.cause());
         }

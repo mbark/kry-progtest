@@ -7,6 +7,7 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .idea/*
+db.json
 
 
 # Created by https://www.gitignore.io/api/intellij,vim,java,maven

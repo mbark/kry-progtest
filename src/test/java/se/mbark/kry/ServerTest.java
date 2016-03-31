@@ -127,8 +127,6 @@ public class ServerTest {
                 .when()
                 .post("/service")
                 .then()
-                .assertThat()
-                .statusCode(200)
                 .extract()
                 .jsonPath().getString("service.id");
 
@@ -148,7 +146,7 @@ public class ServerTest {
                 .post("/service")
                 .then()
                 .extract()
-                .jsonPath().getString("service.id");
+                .jsonPath().getString("id");
 
         String id2 = given()
                 .body("{\"name\":\"google\", \"url\":\"http://google.se\"}")
@@ -156,7 +154,7 @@ public class ServerTest {
                 .post("/service")
                 .then()
                 .extract()
-                .jsonPath().getString("service.id");
+                .jsonPath().getString("id");
 
         context.assertNotEquals(id1, id2);
     }
