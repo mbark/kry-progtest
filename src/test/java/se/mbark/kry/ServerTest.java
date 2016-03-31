@@ -100,32 +100,14 @@ public class ServerTest {
     }
 
     @Test
-    public void checkThatServiceReturnsTheDeletedService(TestContext context) {
-        String id = given()
-                .body("{\"name\":\"test service\", \"url\":\"http://kry.se\"}")
-                .when()
-                .post("/service")
-                .then()
-                .extract()
-                .jsonPath().getString("service.id");
-
-        delete("/service/" + id)
-                .then()
-                .assertThat()
-                .body("name", equalTo("test service"))
-                .body("url", equalTo("http://kry.se"))
-                .body("id", equalTo(id));
-    }
-
-    @Test
     public void checkThatServicesCanBeDeleted(TestContext context) {
-        String id = given()
+        int id = given()
                 .body("{\"name\":\"test service\", \"url\":\"http://kry.se\"}")
                 .when()
                 .post("/service")
                 .then()
                 .extract()
-                .jsonPath().getString("service.id");
+                .jsonPath().getInt("id");
 
         delete("/service/" + id);
 
@@ -158,7 +140,7 @@ public class ServerTest {
 
     @Test
     public void checkThatDeletingNonExistantServicesFail(TestContext context) {
-        delete("/service/" + "this_id_does_not_exist")
+        delete("/service/" + 1)
                 .then()
                 .assertThat()
                 .statusCode(404);
@@ -174,17 +156,5 @@ public class ServerTest {
                 .assertThat()
                 .body("status", nullValue())
                 .body("lastCheck", nullValue());
-    }
-
-    @Test
-    public void checkThatServicesWithInsufficientParamsFailGracefully(TestContext context) {
-        given()
-                .body("{\"name\":\"google\"}")
-                .when()
-                .post("/service")
-                .then()
-                .assertThat()
-                .statusCode(400);
-
     }
 }

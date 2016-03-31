@@ -92,17 +92,51 @@ public class Server extends AbstractVerticle {
     }
 
     private void deleteOne(RoutingContext context) {
-       String id = context.request().getParam("id");
-        if(id == null) {
-            context.response().setStatusCode(400).end();
-        } else {
-            // pretend this is our service for now
-            Service s = new Service();
-            context.response()
-                    .setStatusCode(200)
-                    .putHeader("content-type", "application/json; charset=utf-8")
-                    .end(Json.encodePrettily(s));
-        }
+        fileSystem.readFile(dbFilePath, read -> {
+            if(read.succeeded()) {
+                JsonObject jsonServices = new JsonObject(read.result().toString());
+                JsonArray services =  jsonServices.getJsonArray("services");
+
+                int id = -1;
+                try {
+                    id = Integer.parseInt(context.request().getParam("id"));
+                } catch(NumberFormatException e) {
+                }
+
+                if(id < 0) {
+                    context.response().setStatusCode(400).end();
+                }
+
+                boolean deleted = false;
+
+                for (int i = services.size() - 1; i >= 0; i--) {
+                    JsonObject o = services.getJsonObject(i);
+                    if(o.getInteger("id") == id) {
+                        services.remove(i);
+                        deleted = true;
+                        break;
+                    }
+                }
+
+                if(!deleted) {
+                    context.response().setStatusCode(404).end();
+                    return;
+                }
+
+               jsonServices.put("services", services);
+
+                Buffer b = Buffer.buffer();
+                b.appendString(jsonServices.encodePrettily());
+
+                fileSystem.writeFile(dbFilePath, b, write -> {
+                    if(write.succeeded()) {
+                        context.response().setStatusCode(204).end();
+                    } else {
+                        context.response().setStatusCode(400).end();
+                    }
+                });
+            }
+        });
     }
 
     private void completeStartup(AsyncResult<HttpServer> http, Future<Void> fut) {

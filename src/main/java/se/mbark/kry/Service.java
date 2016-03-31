@@ -22,6 +22,10 @@ public class Service {
         this.url = url;
     }
 
+    public Service(int id) {
+        this.id = id;
+    }
+
     public Service() {
         this.id = COUNTER.getAndIncrement();
     }
@@ -71,4 +75,22 @@ public class Service {
                 .put("lastChecked", lastChecked);
         return json;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Service service = (Service) o;
+
+        return id == service.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+
 }
