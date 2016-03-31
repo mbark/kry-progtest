@@ -14,12 +14,17 @@ import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 
 public class Server extends AbstractVerticle {
-    Vertx vertx = Vertx.vertx();
-    FileSystem fileSystem = vertx.fileSystem();
-    String dbFilePath = "db.json";
+    final Vertx vertx = Vertx.vertx();
+    final FileSystem fileSystem = vertx.fileSystem();
+    public static final String DB_FILE_PATH = "db.json";
 
     @Override
     public void start(Future<Void> fut) {
+        JsonObject config = new JsonObject().put("dbFile", DB_FILE_PATH);
+        DeploymentOptions options = new DeploymentOptions()
+                .setWorker(true)
+                .setConfig(config);
+        vertx.deployVerticle("se.mbark.kry.BackgroundService", options);
         startWebApp((http) -> completeStartup(http, fut));
     }
 
@@ -42,7 +47,7 @@ public class Server extends AbstractVerticle {
     }
 
     private void getAll(RoutingContext context) {
-        fileSystem.readFile(dbFilePath, result -> {
+        fileSystem.readFile(DB_FILE_PATH, result -> {
             if(result.succeeded()) {
                 context.response()
                         .setStatusCode(200)
@@ -57,7 +62,7 @@ public class Server extends AbstractVerticle {
 
     private void addOne(RoutingContext context) {
         try {
-            fileSystem.readFile(dbFilePath, read -> {
+            fileSystem.readFile(DB_FILE_PATH, read -> {
                 if(read.succeeded()) {
                     Service service = Json.decodeValue(context.getBodyAsString(), Service.class);
 
@@ -69,7 +74,7 @@ public class Server extends AbstractVerticle {
                     Buffer b = Buffer.buffer();
                     b.appendString(jsonServices.encodePrettily());
 
-                    fileSystem.writeFile(dbFilePath, b, write -> {
+                    fileSystem.writeFile(DB_FILE_PATH, b, write -> {
                         if(write.succeeded()) {
                             context.response()
                                     .setStatusCode(201)
@@ -92,7 +97,7 @@ public class Server extends AbstractVerticle {
     }
 
     private void deleteOne(RoutingContext context) {
-        fileSystem.readFile(dbFilePath, read -> {
+        fileSystem.readFile(DB_FILE_PATH, read -> {
             if(read.succeeded()) {
                 JsonObject jsonServices = new JsonObject(read.result().toString());
                 JsonArray services =  jsonServices.getJsonArray("services");
@@ -128,7 +133,7 @@ public class Server extends AbstractVerticle {
                 Buffer b = Buffer.buffer();
                 b.appendString(jsonServices.encodePrettily());
 
-                fileSystem.writeFile(dbFilePath, b, write -> {
+                fileSystem.writeFile(DB_FILE_PATH, b, write -> {
                     if(write.succeeded()) {
                         context.response().setStatusCode(204).end();
                     } else {
@@ -142,13 +147,13 @@ public class Server extends AbstractVerticle {
     private void completeStartup(AsyncResult<HttpServer> http, Future<Void> fut) {
         // callback hell
         if (http.succeeded()) {
-            fileSystem.delete(dbFilePath, deleted -> {
+            fileSystem.delete(DB_FILE_PATH, deleted -> {
                 if(deleted.succeeded()) {
-                    fileSystem.createFile(dbFilePath, created -> {
+                    fileSystem.createFile(DB_FILE_PATH, created -> {
                         if(created.succeeded()) {
                             Buffer b  = Buffer.buffer();
                             b.appendString("{\"services\": [] }");
-                            fileSystem.writeFile(dbFilePath, b, written -> {
+                            fileSystem.writeFile(DB_FILE_PATH, b, written -> {
                                 if(written.succeeded()) {
                                     fut.complete();
                                 } else {
@@ -168,5 +173,3 @@ public class Server extends AbstractVerticle {
         }
     }
 }
-
-
