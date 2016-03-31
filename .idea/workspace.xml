@@ -2,17 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b63c416f-b34b-497e-845f-1189c613dc43" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/.name" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/resources/assets/index.html" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/main/java/io/vertx/blog/first/Server.java" afterPath="$PROJECT_DIR$/src/main/java/se/mbark/kry/Server.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/test/java/io/vertx/blog/first/ServerTest.java" afterPath="$PROJECT_DIR$/src/test/java/se/mbark/kry/ServerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build_and_run.sh" afterPath="$PROJECT_DIR$/build_and_run.sh" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/kry-progtest.iml" afterPath="$PROJECT_DIR$/kry-progtest.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/conf/my-application-conf.json" afterPath="$PROJECT_DIR$/src/main/conf/my-application-conf.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/resources/my-it-config.json" afterPath="$PROJECT_DIR$/src/test/resources/my-it-config.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/se/mbark/kry/Server.java" afterPath="$PROJECT_DIR$/src/main/java/se/mbark/kry/Server.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/se/mbark/kry/ServerTest.java" afterPath="$PROJECT_DIR$/src/test/java/se/mbark/kry/ServerTest.java" />
     </list>
     <ignored path="kry-progtest.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -38,8 +32,23 @@
       <file leaf-file-name="Server.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/se/mbark/kry/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="82" column="28" selection-start-line="82" selection-start-column="28" selection-end-line="82" selection-end-column="28" />
+            <state relative-caret-position="-298">
+              <caret line="58" column="27" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#712#713#0" expanded="true" />
+                <element signature="e#777#778#0" expanded="true" />
+                <element signature="e#1555#1564#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Service.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/se/mbark/kry/Service.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
               <folding />
             </state>
           </provider>
@@ -48,25 +57,11 @@
       <file leaf-file-name="ServerTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/se/mbark/kry/ServerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="179" column="48" selection-start-line="179" selection-start-column="48" selection-end-line="179" selection-end-column="48" />
+            <state relative-caret-position="-1108">
+              <caret line="89" column="16" selection-start-line="89" selection-start-column="16" selection-end-line="89" selection-end-column="16" />
               <folding>
-                <element signature="e#1226#1227#0" expanded="false" />
-                <element signature="e#1277#1278#0" expanded="false" />
-                <marker date="1459436624000" expanded="true" signature="741:1171" placeholder="{...}" />
-                <marker date="1459436624000" expanded="true" signature="1934:2323" placeholder="{...}" />
-                <marker date="1459436624000" expanded="true" signature="2957:3416" placeholder="{...}" />
+                <element signature="imports" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/pom.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="61" column="6" selection-start-line="61" selection-start-column="6" selection-end-line="61" selection-end-column="6" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -106,10 +101,11 @@
         <option value="$PROJECT_DIR$/src/test/java/se/mbark/kry/RestIT.java" />
         <option value="$PROJECT_DIR$/build_and_run.sh" />
         <option value="$PROJECT_DIR$/src/test/java/se/mbark/kry/StaticFileTest.java" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/se/mbark/kry/Service.java" />
         <option value="$PROJECT_DIR$/src/main/java/se/mbark/kry/Server.java" />
         <option value="$PROJECT_DIR$/src/test/java/se/mbark/kry/ServerTest.java" />
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -710,11 +706,11 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32887402" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2569956" sideWeight="0.5" order="4" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2569956" sideWeight="0.725" order="4" side_tool="false" content_ui="combo" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2569956" sideWeight="0.275" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -756,7 +752,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="930">
           <caret line="76" column="0" selection-start-line="76" selection-start-column="0" selection-end-line="76" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#712#713#0" expanded="true" />
+            <element signature="e#777#778#0" expanded="true" />
+            <element signature="e#1555#1564#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -781,11 +782,7 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1226#1227#0" expanded="false" />
-            <element signature="e#1277#1278#0" expanded="false" />
-            <marker date="1459436624000" expanded="true" signature="741:1171" placeholder="{...}" />
-            <marker date="1459436624000" expanded="true" signature="1934:2323" placeholder="{...}" />
-            <marker date="1459436624000" expanded="true" signature="2957:3416" placeholder="{...}" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -796,11 +793,7 @@
         <state relative-caret-position="480">
           <caret line="32" column="50" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
           <folding>
-            <element signature="e#1226#1227#0" expanded="false" />
-            <element signature="e#1277#1278#0" expanded="false" />
-            <marker date="1459436624000" expanded="true" signature="741:1171" placeholder="{...}" />
-            <marker date="1459436624000" expanded="true" signature="1934:2323" placeholder="{...}" />
-            <marker date="1459436624000" expanded="true" signature="2957:3416" placeholder="{...}" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -839,11 +832,7 @@
         <state relative-caret-position="480">
           <caret line="32" column="50" selection-start-line="32" selection-start-column="50" selection-end-line="32" selection-end-column="50" />
           <folding>
-            <element signature="e#1226#1227#0" expanded="false" />
-            <element signature="e#1277#1278#0" expanded="false" />
-            <marker date="1459436624000" expanded="true" signature="741:1171" placeholder="{...}" />
-            <marker date="1459436624000" expanded="true" signature="1934:2323" placeholder="{...}" />
-            <marker date="1459436624000" expanded="true" signature="2957:3416" placeholder="{...}" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -930,28 +919,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/se/mbark/kry/Server.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="82" column="28" selection-start-line="82" selection-start-column="28" selection-end-line="82" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/se/mbark/kry/ServerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="179" column="48" selection-start-line="179" selection-start-column="48" selection-end-line="179" selection-end-column="48" />
-          <folding>
-            <element signature="e#1226#1227#0" expanded="false" />
-            <element signature="e#1277#1278#0" expanded="false" />
-            <marker date="1459436624000" expanded="true" signature="741:1171" placeholder="{...}" />
-            <marker date="1459436624000" expanded="true" signature="1934:2323" placeholder="{...}" />
-            <marker date="1459436624000" expanded="true" signature="2957:3416" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -970,8 +937,39 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="61" column="6" selection-start-line="61" selection-start-column="6" selection-end-line="61" selection-end-column="6" />
+        <state relative-caret-position="480">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/se/mbark/kry/ServerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1108">
+          <caret line="89" column="16" selection-start-line="89" selection-start-column="16" selection-end-line="89" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/se/mbark/kry/Server.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-298">
+          <caret line="58" column="27" selection-start-line="58" selection-start-column="27" selection-end-line="58" selection-end-column="27" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#712#713#0" expanded="true" />
+            <element signature="e#777#778#0" expanded="true" />
+            <element signature="e#1555#1564#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/se/mbark/kry/Service.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="23" selection-start-line="11" selection-start-column="23" selection-end-line="11" selection-end-column="23" />
           <folding />
         </state>
       </provider>

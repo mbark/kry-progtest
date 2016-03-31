@@ -3,29 +3,27 @@ package se.mbark.kry;
 import io.vertx.core.*;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
-import io.vertx.ext.mongo.MongoClient;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.ext.web.handler.StaticHandler;
 
-import java.io.File;
+import javax.json.JsonReader;
+import java.io.*;
 import java.rmi.server.UID;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
-/**
- * This is a verticle. A verticle is a _Vert.x component_. This verticle is implemented in Java, but you can
- * implement them in JavaScript, Groovy or even Ruby.
- */
 public class Server extends AbstractVerticle {
     private File dbFile;
 
     @Override
     public void start(Future<Void> fut) {
-        dbFile = new File("kry-db.txt");
         startWebApp((http) -> completeStartup(http, fut));
     }
 
@@ -38,73 +36,70 @@ public class Server extends AbstractVerticle {
         Router router = Router.router(vertx);
 
         router.route("/").handler(StaticHandler.create());
-        router.get("/service").handler(routingContext -> {
-            JsonObject services = getServices();
-
-            HttpServerResponse response = routingContext.response();
-            response.putHeader("content-type", "application/json; charset=utf-8")
-                    .setStatusCode(200)
-                    .end(Json.encodePrettily(services));
-        });
-
-        router.post("/service").handler(routingContext -> {
-            MultiMap params = routingContext.request().params();
-            String name = params.get("name");
-            String url = params.get("url");
-
-            JsonObject addedService = addService(name, url);
-
-            HttpServerResponse response = routingContext.response();
-            response.putHeader("content-type", "application/json; charset=utf-8")
-                    .setStatusCode(201)
-                    .end(Json.encodePrettily(addedService));
-        });
-
-        router.delete("/service/:serviceid").handler(routingContext -> {
-            String serviceId = routingContext.request().getParam("serviceid");
-
-            deleteService(serviceId);
-
-            HttpServerResponse response = routingContext.response();
-            response.putHeader("content-type", "application/json; charset=utf-8")
-                    .setStatusCode(200)
-                    .end();
-        });
+        router.get("/service").handler(this::getAll);
+        router.route("/service*").handler(BodyHandler.create());
+        router.post("/service").handler(this::addOne);
+        router.delete("/service/:id").handler(this::deleteOne);
 
         vertx.createHttpServer()
                 .requestHandler(router::accept)
                 .listen(config().getInteger("http.port", 8080), next::handle);
     }
 
-    private JsonObject getServices() {
-        JsonObject json = new JsonObject();
-        json.put("name", "google");
-        json.put("url", "http://google.se");
-        json.put("id", "id");
+    private void getAll(RoutingContext context) {
+        List<Service> services = new ArrayList<Service>();
 
-        return json;
+        // reading from file to populate services
+
+        HashMap<String, List<Service>> jsonMap = new HashMap<>();
+        jsonMap.put("services", services);
+
+        context.response()
+                .setStatusCode(200)
+                .putHeader("content-type", "application/json; charset=utf-8")
+                .end(Json.encodePrettily(jsonMap));
     }
 
-    private JsonObject addService (String name, String url) {
-        JsonObject json = new JsonObject();
-        json.put("name", name);
-        json.put("url", url);
-        json.put("id", new UID().toString());
-
-        return json;
+    private void addOne(RoutingContext context) {
+        System.out.println(context.getBodyAsString());
+        try {
+            Service service = Json.decodeValue(context.getBodyAsString(), Service.class);
+            context.response()
+                    .setStatusCode(201)
+                    .putHeader("content-type", "application/json; charset=utf-8")
+                    .end(Json.encodePrettily(service));
+        } catch (DecodeException e) {
+            System.out.println("Unable to decode context body: \"" + e.getMessage() + "\"");
+            context.response()
+                    .setStatusCode(400)
+                    .end();
+        }
     }
 
-    private JsonObject deleteService(String serviceId) {
-        JsonObject json = new JsonObject();
-        json.put("name", "google");
-        json.put("url", "http://google.se");
-        json.put("id", serviceId);
-
-        return json;
+    private void deleteOne(RoutingContext context) {
+       String id = context.request().getParam("id");
+        if(id == null) {
+            context.response().setStatusCode(400).end();
+        } else {
+            // pretend this is our service for now
+            Service s = new Service();
+            context.response()
+                    .setStatusCode(200)
+                    .putHeader("content-type", "application/json; charset=utf-8")
+                    .end(Json.encodePrettily(s));
+        }
     }
 
     private void completeStartup(AsyncResult<HttpServer> http, Future<Void> fut) {
         if (http.succeeded()) {
+            try {
+                dbFile = new File("resources/kry-db.txt");
+                dbFile.delete();
+                dbFile.mkdirs();
+                dbFile.createNewFile();
+            } catch (IOException e) {
+                fut.fail("Unable to create file used to save service data");
+            }
             fut.complete();
         } else {
             fut.fail(http.cause());
