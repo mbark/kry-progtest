@@ -1,4 +1,4 @@
-package io.vertx.blog.first;
+package se.mbark.kry;
 
 import io.vertx.core.*;
 import io.vertx.core.http.HttpServer;
@@ -80,7 +80,7 @@ public class Server extends AbstractVerticle {
         JsonObject json = new JsonObject();
         json.put("name", "google");
         json.put("url", "http://google.se");
-        json.put("id", new UID().toString());
+        json.put("id", "id");
 
         return json;
     }

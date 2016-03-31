@@ -22,10 +22,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="kry-progtest" />
         <module name="my-first-app" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="kry-progtest" target="1.8" />
       <module name="my-first-app" target="1.8" />
     </bytecodeTargetLevel>
   </component>
