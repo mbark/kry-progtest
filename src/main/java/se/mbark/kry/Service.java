@@ -1,5 +1,7 @@
 package se.mbark.kry;
 
+import io.vertx.core.json.JsonObject;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -58,5 +60,15 @@ public class Service {
 
     public void setLastChecked(String lastChecked) {
         this.lastChecked = lastChecked;
+    }
+
+    public JsonObject toJson() {
+        JsonObject json = new JsonObject()
+                .put("id", id)
+                .put("name", name)
+                .put("url", url)
+                .put("status", status)
+                .put("lastChecked", lastChecked);
+        return json;
     }
 }

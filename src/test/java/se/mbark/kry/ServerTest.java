@@ -76,14 +76,12 @@ public class ServerTest {
                 .assertThat()
                 .body("name", equalTo("test service"))
                 .body("url", equalTo("http://kry.se"))
-                .body("id", hasKey("id"))
-                .extract()
-                .jsonPath().getString("id");
+                .body("id", notNullValue());
     }
 
     @Test
     public void checkThatServicesCanBeAdded(TestContext context) {
-        given()
+        int id = given()
                 .body("{\"name\":\"test service\", \"url\":\"http://kry.se\"}")
                 .when()
                 .post("/service")
@@ -91,15 +89,14 @@ public class ServerTest {
                 .assertThat()
                 .statusCode(201)
                 .extract()
-                .jsonPath().getString("id");
+                .jsonPath().getInt("id");
 
 
         get("/service")
                 .then()
                 .assertThat()
                 .statusCode(200)
-                .body("services", arrayWithSize(1))
-                .body("services[0].id", equalTo("id"));
+                .body("services[0].id", equalTo(id));
     }
 
     @Test

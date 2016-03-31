@@ -6,6 +6,8 @@ import io.vertx.core.file.FileSystem;
 import io.vertx.core.http.HttpServer;
 import io.vertx.core.json.DecodeException;
 import io.vertx.core.json.Json;
+import io.vertx.core.json.JsonArray;
+import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
@@ -55,11 +57,32 @@ public class Server extends AbstractVerticle {
 
     private void addOne(RoutingContext context) {
         try {
-            Service service = Json.decodeValue(context.getBodyAsString(), Service.class);
-            context.response()
-                    .setStatusCode(201)
-                    .putHeader("content-type", "application/json; charset=utf-8")
-                    .end(Json.encodePrettily(service));
+            fileSystem.readFile(dbFilePath, read -> {
+                if(read.succeeded()) {
+                    Service service = Json.decodeValue(context.getBodyAsString(), Service.class);
+
+                    JsonObject jsonServices = new JsonObject(read.result().toString());
+                    JsonArray services =  jsonServices.getJsonArray("services");
+                    services.add(service.toJson());
+                    jsonServices.put("services", services);
+
+                    Buffer b = Buffer.buffer();
+                    b.appendString(jsonServices.encodePrettily());
+
+                    fileSystem.writeFile(dbFilePath, b, write -> {
+                        if(write.succeeded()) {
+                            context.response()
+                                    .setStatusCode(201)
+                                    .putHeader("content-type", "application/json; charset=utf-8")
+                                    .end(Json.encodePrettily(service));
+                        } else {
+                            context.response()
+                                    .setStatusCode(400)
+                                    .end();
+                        }
+                    });
+                }
+            });
         } catch (DecodeException e) {
             System.out.println("Unable to decode context body: \"" + e.getMessage() + "\"");
             context.response()
