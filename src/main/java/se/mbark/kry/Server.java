@@ -35,7 +35,7 @@ public class Server extends AbstractVerticle {
     }
 
     public void stop(Future<Void> fut) {
-        fut.complete();
+        dbFile.deleteYourself(fut);
     }
 
     private void startWebApp(Handler<AsyncResult<HttpServer>> next) {
@@ -101,7 +101,6 @@ public class Server extends AbstractVerticle {
     }
 
     private void completeStartup(AsyncResult<HttpServer> http, Future<Void> fut) {
-        // callback hell
         if (http.succeeded()) {
             dbFile.createYourself(fut);
         } else {

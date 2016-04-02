@@ -14,7 +14,7 @@ public class Service {
     private String name;
     private String url;
     private String status;
-    private String lastChecked;
+    private String lastCheck;
 
     public Service(String name, String url) {
         this.id = COUNTER.getAndIncrement();
@@ -46,8 +46,8 @@ public class Service {
         return status;
     }
 
-    public String getLastChecked() {
-        return lastChecked;
+    public String getLastCheck() {
+        return lastCheck;
     }
 
     public void setName(String name) {
@@ -62,8 +62,8 @@ public class Service {
         this.status = status;
     }
 
-    public void setLastChecked(String lastChecked) {
-        this.lastChecked = lastChecked;
+    public void setLastCheck(String lastCheck) {
+        this.lastCheck = lastCheck;
     }
 
     public JsonObject toJson() {
@@ -72,7 +72,7 @@ public class Service {
                 .put("name", name)
                 .put("url", url)
                 .put("status", status)
-                .put("lastChecked", lastChecked);
+                .put("lastCheck", lastCheck);
         return json;
     }
 

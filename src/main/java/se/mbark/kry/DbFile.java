@@ -93,22 +93,28 @@ public class DbFile {
 
     public void createYourself(Future<Void> fut) {
         fileSystem.delete(DB_FILE_PATH, deleted -> {
+            fileSystem.createFile(DB_FILE_PATH, created -> {
+                if(created.succeeded()) {
+                    Buffer b  = Buffer.buffer();
+                    b.appendString("{\"services\": [] }");
+                    fileSystem.writeFile(DB_FILE_PATH, b, written -> {
+                        if(written.succeeded()) {
+                            fut.complete();
+                        } else {
+                            fut.fail(written.cause());
+                        }
+                    });
+                } else {
+                    fut.fail(created.cause());
+                }
+            });
+        });
+    }
+
+    public void deleteYourself(Future<Void> fut) {
+        fileSystem.delete(DB_FILE_PATH, deleted -> {
             if(deleted.succeeded()) {
-                fileSystem.createFile(DB_FILE_PATH, created -> {
-                    if(created.succeeded()) {
-                        Buffer b  = Buffer.buffer();
-                        b.appendString("{\"services\": [] }");
-                        fileSystem.writeFile(DB_FILE_PATH, b, written -> {
-                            if(written.succeeded()) {
-                                fut.complete();
-                            } else {
-                                fut.fail(written.cause());
-                            }
-                        });
-                    } else {
-                        fut.fail(created.cause());
-                    }
-                });
+                fut.complete();
             } else {
                 fut.fail(deleted.cause());
             }
